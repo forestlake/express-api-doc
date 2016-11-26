@@ -1,0 +1,11 @@
+{
+  "name": "express-api-doc",
+  "version": "0.0.1",
+  "dependencies": {
+    "js-csp": "^0.8.1",
+    "lodash": "^4.15.0"
+  },
+  "peerDependencies": {
+    "express": "^4.13.1"
+  }
+}
