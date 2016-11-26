@@ -1,6 +1,6 @@
 {
   "name": "express-api-doc",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "dependencies": {
     "js-csp": "^0.8.1",
     "lodash": "^4.15.0"
