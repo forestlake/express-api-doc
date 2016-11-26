@@ -66,4 +66,4 @@ docs.generate({
 app.use('/', index);
 ```
 
-## in generated html present list of avalible routes with search and sendbox, where you can try to send json to your server. Also under sendbox present list of examples, where you can see request and response json which has been tracked during tests.
+## in generated html present list of available routes with search and sendbox, where you can try to send json to your server. Also under sendbox present list of examples, where you can see request and response json which has been tracked during tests.
