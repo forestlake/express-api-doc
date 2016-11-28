@@ -33,7 +33,8 @@ in generated html present list of available routes with search and sendbox,
 where you can try to send json to your server. Under sendbox present list of examples,
 where you can see request and response json which has been tracked (for instance during tests).
 
-__you can change and generate your own template using [express-api-doc-template](https://github.com/forestlake/express-api-doc-template) project__
+__you can change and generate your own template using [express-api-doc-template](https://github.com/forestlake/express-api-doc-template) project.__
+
 __to use your template, pass template option to generate function:__
 ```
 docs.generate({
