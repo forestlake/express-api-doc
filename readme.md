@@ -10,7 +10,7 @@ docs.generate({
   path:     './public/template.html',
 });
 ```
-__*template.html* will be generated in *./public/*__
+template.html will be generated in ./public/
 
 ### Track requests and responses:
 __in app.js before routes declaration add:__
