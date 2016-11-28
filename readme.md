@@ -1,7 +1,7 @@
-# Auto generated Express documentation
+# Auto generated express documentation
 
-## to create documentation:
-### create file docks.js:
+### Create documentation:
+__run__:
 ```
 const Docs = require('express-api-doc');
 const app = require('./app'); // your app.js
@@ -10,60 +10,42 @@ docs.generate({
   path:     './public/template.html',
 });
 ```
-### then run
-```
-node ./docks.js
-```
-### in *./public/* will be generated *template.html*
+__*template.html* will be generated in *./public/*__
 
-### now you can simply open it, or create route like this:
+### Track requests and responses:
+__in app.js before routes declaration add:__
 ```
-const express = require('express');
-const router = new express.Router();
-const path = require('path');
-
-router.get('/api/doc', (req, res) => {
-  res.sendFile(path.resolve('public/template.html'));
-});
-
-module.exports = router;
-```
-### so documentation will be available on http://your_host_name:your_port/api/doc
-
-## if you have some coverage tests you can track requests and responses. For this change your app.js:
-```
-...
 const Docs = require('express-api-doc');
-...
-const app = express();
 const dock = new Docs(app);
-...
 dock.track({
 	path: './public/examples.txt', // responses and requests will save here
 });
-app.use(favicon(path.join(__dirname, 'public', 'favicon.png')));
-...
-
 ```
-### now change you docks.js:
+__pass examples option to generate function:__
 ```
-const Docs = require('express-api-doc');
-const app = require('./app'); // your app.js
-const docs = new Docs(app);
 docs.generate({
   path:     './public/template.html',
   examples: './public/examples.txt,
 });
 ```
 
-### then you can run tests with generating documentation. For instance:
-```
-./node_modules/.bin/mocha -r should &&  node ./docks.js
-```
+in generated html present list of available routes with search and sendbox, 
+where you can try to send json to your server. Under sendbox present list of examples,
+where you can see request and response json which has been tracked (for instance during tests).
 
-### note! dock.track function must run before any declaration like this:
+__you can change and generate your own template using [express-api-doc-template](https://github.com/forestlake/express-api-doc-template) project__
+__to use your template, pass template option to generate function:__
 ```
-app.use('/', index);
+docs.generate({
+  path:     './public/template.html',
+  examples: './public/examples.txt,
+  template: './path/to/your/template.html',
+});
 ```
+__HINT: to publish you docs create route:__
 
-## in generated html present list of available routes with search and sendbox, where you can try to send json to your server. Also under sendbox present list of examples, where you can see request and response json which has been tracked during tests.
+```
+router.get('/api/doc', (req, res) => {
+  res.sendFile(path.resolve('public/template.html'));
+});
+```

@@ -1,11 +1,24 @@
 {
   "name": "express-api-doc",
-  "version": "0.0.2",
+  "description": "Auto generated express documentation",
+  "version": "0.0.5",
   "dependencies": {
     "js-csp": "^0.8.1",
     "lodash": "^4.15.0"
   },
   "peerDependencies": {
     "express": "^4.13.1"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com:forestlake/express-api-doc.git"
+  },
+  "keywords": [
+    "express",
+    "api",
+    "documentation",
+    "auto",
+    "generated"
+  ],
+  "license": "MIT"
 }
