@@ -45,6 +45,10 @@ node ./node_modules/.bin/mocha -r should && node ./docs.js
 in generated html present list of available routes with search and sendbox, 
 where you can try to send json to your server. Under sendbox present list of examples,
 where you can see request and response json which has been tracked (for instance during tests).
+### List of available routes:
+![list](https://github.com/forestlake/express-api-doc/blob/master/images/list.jpg?raw=true)
+### Sendbox with example:
+![sendbox](https://github.com/forestlake/express-api-doc/blob/master/images/sendbox.jpg?raw=true)
 
 __you can change and generate your own template using [express-api-doc-template](https://github.com/forestlake/express-api-doc-template) project.__
 
