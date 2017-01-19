@@ -107,13 +107,13 @@ class Docks {
     _.each(routes, (route) => {
       route.id = _.uniqueId();
       route.params = _.map((route.path.match(/\/:([^/]+)/ig)), (routePath) => routePath.replace('/:', ''));
-      const routeRegexpString = `${route.path.replace(/\//ig, '\\/').replace(/\/:([^/]+)/ig, '/[^\\/]+')}$`;
+      const routeRegexpString = `${route.path.replace(/\//ig, '\\/').replace(/\/:([^/]+)/ig, '/[^\\/]+')}(?:\\?.*)?$`;
       const routeRegexp = new RegExp(routeRegexpString);
       route.regexp = routeRegexp.toString();
       const prefixRegexp = new RegExp(route.prefixRegexp);
       const examplesForRoute = _.filter(examplesSource, (example) => {
         const currentRouteRegexp = new RegExp(prefixRegexp.source + routeRegexp.source);
-        return currentRouteRegexp.test(example.url);
+        return currentRouteRegexp.test(example.url) && route.methods[_.lowerCase(example.method)];
       });
       route.examplesPresent = !_.isEmpty(examplesForRoute);
       _.each(examplesForRoute, (e) => {
