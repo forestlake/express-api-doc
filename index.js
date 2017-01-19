@@ -9,8 +9,8 @@ const templateSourcePath = `${__dirname}/template.html`;
 
 const go = csp.go;
 const take = csp.take;
-const put = csp.put;
 const chan = csp.chan;
+const putAsync = csp.putAsync;
 
 class Docks {
   constructor(app) {
@@ -31,15 +31,13 @@ class Docks {
     this.app.use('/*', (req, res, next) => {
       const originalSend = res.send;
       res.send = function (body, ...args) {
-        !self.writeChannel.closed && go(function* () {
-          yield put(self.writeChannel, {
-            url:      req.originalUrl,
-            method:   req.method,
-            request:  encodeURI(JSON.stringify(req.body)),
-            status:   res.statusCode,
-            type:     res.get('Content-Type'),
-            response: encodeURI(body),
-          });
+        !self.writeChannel.closed && putAsync(self.writeChannel, {
+          url:      req.originalUrl,
+          method:   req.method,
+          request:  encodeURI(JSON.stringify(req.body)),
+          status:   res.statusCode,
+          type:     res.get('Content-Type'),
+          response: encodeURI(body),
         });
         originalSend.call(this, body, ...args);
       };
@@ -130,7 +128,7 @@ class Docks {
     template = template.replace("'{{ROUTES}}'", JSON.stringify(routes));
     template = template.replace("'{{EXAMPLES}}'", JSON.stringify(examples));
     template = template.replace("'{{CONFIG}}'", JSON.stringify(opt));
-    fs.writeFileSync(path.resolve('public/template.html'), template);
+    fs.writeFileSync(path.resolve(opt.path || 'public/template.html'), template);
     if (examplesSource) {
       const examplesPath = path.resolve(opt.examples) || path.resolve('public/examples.txt');
       Docks.clearFile(examplesPath);
