@@ -135,7 +135,7 @@ class Docks {
       const examplesPath = path.resolve(opt.examples) || path.resolve('public/examples.txt');
       Docks.clearFile(examplesPath);
     }
-    process.exit(1); // eslint-disable-line no-process-exit
+    process.exit(0); // eslint-disable-line no-process-exit
   }
 }
 

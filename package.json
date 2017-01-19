@@ -1,7 +1,7 @@
 {
   "name": "express-api-doc",
   "description": "Auto generated express documentation",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "dependencies": {
     "js-csp": "^0.8.1",
     "lodash": "^4.15.0"
