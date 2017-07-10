@@ -65,6 +65,29 @@ class Docks {
     });
   }
 
+  getNestedRoutes(middleware, stack) {
+    const routes = [];
+
+    _.each(stack, (handler) => {
+      if (handler.handle.stack) {
+        const nested = this.getNestedRoutes(handler, handler.handle.stack);
+        _.each(nested, (route) => {
+          routes.push(route);
+        })
+      }
+
+      const route = handler.route;
+      route && routes.push({
+        path:         route.path,
+        methods:      route.methods,
+        prefixRegexp: middleware.regexp,
+        prefix:       middleware.regexp.source.replace(/\\|\^|\?|=|\||\$|\(.*\)|\+/ig, ''),
+      });
+    });
+
+    return routes;
+  }
+
   getAllRoutes() {
     const routes = [];
     _.each(this.app._router.stack, (middleware) => {
@@ -76,17 +99,14 @@ class Docks {
           prefix:       middleware.regexp.source.replace(/\\|\^|\?|=|\||\$|\(.*\)|\+/ig, ''),
         });
       } else if (middleware.name === 'router') {
-        _.each(middleware.handle.stack, (handler) => {
-          const route = handler.route;
-          route && routes.push({
-            path:         route.path,
-            methods:      route.methods,
-            prefixRegexp: middleware.regexp,
-            prefix:       middleware.regexp.source.replace(/\\|\^|\?|=|\||\$|\(.*\)|\+/ig, ''),
-          });
+
+        var nested = this.getNestedRoutes(middleware, middleware.handle.stack);
+        _.each(nested, (route) => {
+          routes.push(route);
         });
       }
     });
+
     return routes;
   }
 
@@ -124,10 +144,12 @@ class Docks {
       route.prefixRegexp = prefixRegexp.toString();
     });
     let template = opt.template ? fs.readFileSync(path.resolve(opt.template)) : fs.readFileSync(templateSourcePath);
+    let title = opt.title;
     template = template.toString();
     template = template.replace("'{{ROUTES}}'", JSON.stringify(routes));
     template = template.replace("'{{EXAMPLES}}'", JSON.stringify(examples));
     template = template.replace("'{{CONFIG}}'", JSON.stringify(opt));
+    template = template.replace("'{{TITLE}}'", JSON.stringify(title));
     fs.writeFileSync(path.resolve(opt.path || 'public/template.html'), template);
     if (examplesSource) {
       const examplesPath = path.resolve(opt.examples) || path.resolve('public/examples.txt');
