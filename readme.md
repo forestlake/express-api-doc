@@ -1,3 +1,5 @@
+# DEPRECATED
+
 # Auto generated express documentation
 
 ### To create documentation:
